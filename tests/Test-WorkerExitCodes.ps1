@@ -38,3 +38,4 @@ try {
     if ([IO.File]::Exists($probe)) { [IO.File]::Delete($probe) }
     [IO.Directory]::Delete($folder)
 }
+exit 0
