@@ -1,0 +1,15 @@
+name: Tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  transactions:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test file transactions
+        shell: powershell
+        run: ./tests/Test-NoNag.ps1
+      - name: Test worker exit codes
+        shell: powershell
+        run: ./tests/Test-WorkerExitCodes.ps1

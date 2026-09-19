@@ -1,0 +1,8 @@
+*.exe
+*.dll
+*.tmp
+*.lock
+*.zip
+*.log
+.vscode/
+dist/

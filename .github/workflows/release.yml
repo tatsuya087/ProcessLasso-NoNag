@@ -1,0 +1,39 @@
+name: Draft release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test file transactions
+        run: ./tests/Test-NoNag.ps1
+      - name: Test worker exit codes
+        run: ./tests/Test-WorkerExitCodes.ps1
+      - name: Build distribution
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: ./scripts/Build-Release.ps1 -Tag $env:RELEASE_TAG
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          $archive = Join-Path $PWD "dist/ProcessLasso-NoNag-$env:RELEASE_TAG.zip"
+          gh release create $env:RELEASE_TAG $archive --verify-tag --draft --title $env:RELEASE_TAG --generate-notes
+          if ($LASTEXITCODE -ne 0) { throw 'Draft release creation failed.' }
