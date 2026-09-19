@@ -8,7 +8,7 @@ Currently accepts only the verified executable from this build.
 
 ## Usage
 
-1. Extract the ZIP and double-click `Start.cmd`.
+1. Extract the [ZIP](https://github.com/tatsuya087/ProcessLasso-NoNag/releases) and double-click `Start.cmd`.
 2. Check the installation folder.
 3. Select **Apply patch** or **Restore original**.
 4. Confirm the operation and accept the administrator prompt.
